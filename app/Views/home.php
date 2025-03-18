@@ -1,9 +1,16 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
-    <h1 class="text-center">Bienvenue sur CESIZen</h1>
-    <p class="text-center">Votre plateforme pour la gestion du stress et du bien-être mental.</p>
-    <div class="text-center mt-4">
-        <a href="<?= base_url('login') ?>" class="btn btn-primary">Se connecter</a>
+
+<div class="text-center py-5" style="background-color: #FAF5E4; border-radius: 15px;">
+    <h1 class="fw-bold text-dark">Bienvenue sur</h1>
+    <div class="text-center">
+        <img src="<?= base_url('logo.png') ?>" alt="CESIZen Logo" class="img-fluid" style="max-width: 200px;">
     </div>
+    <p class="text-muted">Découvrez une application qui prend soin de votre bien-être mental.</p>
+    <a href="<?= base_url('register') ?>" class="btn btn-warning btn-lg">
+        <i class="fas fa-user-plus"></i> Commencer
+    </a>
+</div>
+
 <?= $this->endSection() ?>
