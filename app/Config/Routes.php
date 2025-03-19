@@ -14,5 +14,6 @@ $routes->get('dashboard', 'Dashboard::index');
 $routes->get('/test-db', 'DatabaseTest::testConnection');
 $routes->get('/test-register', 'Auth::testRegister');
 $routes->post('/auth/processRegister', 'Auth::processRegister');
+$routes->get('/admin', 'Admin::index', ['filter' => 'adminAuth']);
 
 

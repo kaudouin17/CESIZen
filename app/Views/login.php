@@ -5,10 +5,12 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
         <h3 class="text-center"><i class="fas fa-sign-in-alt"></i> Connexion</h3>
+        <?= session()->getFlashdata('error') ? '<div class="alert alert-danger">' . session()->getFlashdata('error') . '</div>' : '' ?>
+        <?= session()->getFlashdata('success') ? '<div class="alert alert-success">' . session()->getFlashdata('success') . '</div>' : '' ?>
         <form action="<?= base_url('auth/processLogin') ?>" method="post">
             <div class="mb-3">
-                <label for="email" class="form-label"><i class="fas fa-envelope"></i> Adresse e-mail</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <label for="identifier" class="form-label"><i class="fas fa-user"></i> Nom d'utilisateur ou adresse e-mail</label>
+                <input type="text" class="form-control" id="identifier" name="identifier" required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label"><i class="fas fa-lock"></i> Mot de passe</label>

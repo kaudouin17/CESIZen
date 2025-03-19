@@ -8,9 +8,7 @@
         <img src="<?= base_url('logo.png') ?>" alt="CESIZen Logo" class="img-fluid" style="max-width: 200px;">
     </div>
     <p class="text-muted">Découvrez une application qui prend soin de votre bien-être mental.</p>
-    <a href="<?= base_url('register') ?>" class="btn btn-warning btn-lg">
-        <i class="fas fa-user-plus"></i> Commencer
-    </a>
 </div>
+
 
 <?= $this->endSection() ?>

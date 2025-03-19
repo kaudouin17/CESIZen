@@ -2,9 +2,20 @@
 
 <?= $this->section('content') ?>
 
+
+
 <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
         <h3 class="text-center"><i class="fas fa-user-plus"></i> Inscription</h3>
+        <?php if (session()->getFlashdata('errors')): ?>
+            <div class="alert alert-danger">
+                <ul>
+                    <?php foreach (session()->getFlashdata('errors') as $error): ?>
+                        <li><?= esc($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
         <form action="<?= base_url('auth/processRegister') ?>" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label"><i class="fas fa-user"></i> Nom d'utilisateur</label>
