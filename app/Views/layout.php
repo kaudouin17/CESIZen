@@ -7,14 +7,20 @@
     <title>CESIZen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
         body {
             background-color: #f8f4e1;
             font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
+        /* Navbar */
         .navbar {
-            background-color: #2ca058;
+            background-color: #2BA84A !important;
+            padding: 10px 0;
         }
 
         .navbar-brand {
@@ -26,105 +32,119 @@
             color: #ffcc00;
         }
 
-        .auth-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .home-container {
-            position: relative;
-            background: url('https://source.unsplash.com/1600x900/?zen,nature') no-repeat center center/cover;
-            height: 80vh;
+        /* Centrage parfait */
+        .navbar-nav {
+            width: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
+            gap: 20px;
         }
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+        .nav-item {
+            margin: 0 5px;
         }
 
-        .home-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .brand {
-            color: #ffcc00;
+        .nav-link {
+            color: white !important;
             font-weight: bold;
+            padding: 8px 15px;
         }
 
-        html,
-        body {
-            height: 100%;
+        .nav-link:hover {
+            color: #FFD700 !important;
+        }
+
+        /* Boutons à droite */
+        .nav-buttons {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
-        .content {
-            flex: 1;
-        }
-
+        /* Footer ultra-fin */
         .footer {
             background-color: #2BA84A;
             color: white;
-            padding: 5px 0;
+            padding: 3px 0;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
             width: 100%;
-        }
-
-        .footer p {
-            margin: 0;
-            padding: 2px 0;
+            margin-top: auto;
         }
 
         .footer a {
             text-decoration: none;
             font-weight: bold;
             color: white;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .footer a:hover {
             text-decoration: underline;
             color: #FFD700;
         }
+
+        .dropdown-item:focus,
+        .dropdown-item:hover {
+            background-color: #f1f1f1 !important;
+            /* Gris clair */
+            color: black !important;
+        }
+
+        .btn-action {
+            width: 110px;
+            /* Ajuste selon tes besoins */
+            text-align: center;
+            white-space: nowrap;
+        }
     </style>
 </head>
 
 <body class="bg-light">
-    <nav class="navbar navbar-expand-lg" style="background-color: #2BA84A;">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Logo -->
             <a class="navbar-brand text-white d-flex align-items-center" href="<?= base_url() ?>">
                 <img src="<?= base_url('logo.png') ?>" alt="CESIZen Logo" class="me-2" style="height: 40px;">
             </a>
-            <div class="ml-auto d-flex align-items-center">
-                <?php if (session()->get('isLoggedIn')) : ?>
-                    <span class="text-white me-3">Bienvenue, <?= session()->get('username'); ?></span>
+
+            <!-- Liens de navigation centrés -->
+            <div class="d-flex justify-content-center w-100">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= site_url('/profile') ?>"><i class="fas fa-user"></i> Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= site_url('/informations') ?>"><i class="fas fa-newspaper"></i> Informations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= site_url('/exercises') ?>"><i class="fas fa-wind"></i> Exercices</a>
+                    </li>
 
                     <?php if (session()->get('is_admin')) : ?>
-            <a class="btn btn-primary me-2" href="<?= site_url('/admin') ?>">Admin</a>
-        <?php endif; ?>
+                        <!-- Menu déroulant Admin -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-cogs"></i> Admin
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="<?= site_url('/admin') ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                                <li><a class="dropdown-item" href="<?= site_url('/admin/users') ?>"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                                <li><a class="dropdown-item" href="<?= site_url('/admin/exercises') ?>"><i class="fas fa-wind"></i> Exercices</a></li>
+                            </ul>
+                        </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
 
+            <!-- Boutons Connexion / Déconnexion -->
+            <div class="nav-buttons">
+                <?php if (session()->get('isLoggedIn')) : ?>
+                    <span class="text-white me-2">Bienvenue, <?= session()->get('username'); ?></span>
                     <a class="btn btn-danger" href="<?= site_url('/logout') ?>">Déconnexion</a>
                 <?php else : ?>
-                    <?php $uri = service('uri')->getSegment(1); ?>
-                    <?php if ($uri !== 'login') : ?>
-                        <a href="<?= base_url('/login') ?>" class="btn btn-light me-2">Connexion</a>
-                    <?php endif; ?>
-                    <?php if ($uri !== 'register') : ?>
-                        <a href="<?= base_url('/register') ?>" class="btn btn-warning">S'inscrire</a>
-                    <?php endif; ?>
+                    <a href="<?= base_url('/login') ?>" class="btn btn-light">Connexion</a>
+                    <a href="<?= base_url('/register') ?>" class="btn btn-warning">S'inscrire</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -145,6 +165,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
