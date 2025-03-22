@@ -40,6 +40,7 @@ class Auth extends Controller
                     'username' => $user['username'],
                     'user_email' => $user['email'],
                     'is_admin' => (bool) $user['is_admin'],
+                    'avatar' => $user['avatar'],
                     'isLoggedIn' => true
                 ]);
 

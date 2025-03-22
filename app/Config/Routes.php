@@ -24,7 +24,19 @@ $routes->get('/admin/users/filter', 'Admin::filterUsers');
 $routes->get('/admin/users/filter', 'User::filter');
 $routes->get('/admin/users/create', 'Admin::createUser');
 $routes->post('/admin/users/store', 'Admin::storeUser');
-    
+$routes->get('/profile', 'Profile::index');
+$routes->post('/profile/update', 'Profile::update');
+$routes->get('/profile/edit', 'Profile::edit');
+$routes->get('/profile/avatar', 'Profile::avatar');
+$routes->post('/profile/update-avatar', 'Profile::updateAvatar');
+
+
+
+
+
+
+
+
 
 
 
