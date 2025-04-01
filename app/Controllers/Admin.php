@@ -2,11 +2,19 @@
 
 namespace App\Controllers;
 
+use App\Models\ArticleModel;
 use App\Models\UserModel;
 use CodeIgniter\Controller;
 
 class Admin extends Controller
 {
+    protected $db;
+
+    public function __construct()
+    {
+        $this->db = \Config\Database::connect();
+    }
+
     public function index()
     {
         return view('admin/dashboard');
@@ -160,5 +168,97 @@ class Admin extends Controller
 
         $userModel->insert($data);
         return redirect()->to('/admin/users')->with('success', 'Utilisateur ajouté avec succès.');
+    }
+
+    public function informations()
+    {
+        $articleModel = new \App\Models\ArticleModel();
+
+        $search = $this->request->getGet('search');
+
+        if ($search) {
+            $articles = $articleModel
+                ->like('title', $search)
+                ->orLike('summary', $search)
+                ->findAll();
+        } else {
+            $articles = $articleModel->findAll();
+        }
+
+        return view('admin/informations', [
+            'articles' => $articles,
+            'search' => $search,
+        ]);
+    }
+
+    public function filterInformations()
+    {
+        $model = new \App\Models\ArticleModel();
+        $search = $this->request->getGet('search');
+
+        $articles = $model->like('title', $search)->findAll();
+
+        return view('admin/informations_table', ['articles' => $articles]);
+    }
+
+    public function createArticle()
+    {
+        return view('admin/create_informations');
+    }
+
+    public function storeArticle()
+    {
+        $articleModel = new \App\Models\ArticleModel();
+
+        $data = [
+            'title' => $this->request->getPost('title'),
+            'summary' => $this->request->getPost('summary'),
+            'content' => $this->request->getPost('content'),
+            'image' => $this->request->getPost('image') // ou un champ d'upload plus tard
+        ];
+
+        $articleModel->insert($data);
+
+        return redirect()->to('/admin/informations')->with('success', 'Article ajouté avec succès.');
+    }
+
+    public function editArticle($id)
+    {
+        $model = new \App\Models\ArticleModel();
+        $article = $model->find($id);
+
+        if (!$article) {
+            return redirect()->to('/admin/informations')->with('error', 'Article introuvable.');
+        }
+
+        return view('admin/edit_informations', ['article' => $article]);
+    }
+
+    public function updateArticle($id)
+    {
+        $model = new \App\Models\ArticleModel();
+
+        $data = [
+            'title' => $this->request->getPost('title'),
+            'summary' => $this->request->getPost('summary'),
+            'content' => $this->request->getPost('content'),
+            'image' => $this->request->getPost('image'),
+        ];
+
+        $model->update($id, $data);
+        return redirect()->to('/admin/informations')->with('success', 'Article mis à jour.');
+    }
+
+    public function deleteArticle($id)
+    {
+        $model = new \App\Models\ArticleModel();
+        $article = $model->find($id);
+
+        if (!$article) {
+            return redirect()->to('/admin/informations')->with('error', 'Article introuvable.');
+        }
+
+        $model->delete($id);
+        return redirect()->to('/admin/informations')->with('success', 'Article supprimé avec succès.');
     }
 }
