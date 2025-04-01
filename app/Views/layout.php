@@ -148,6 +148,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="<?= site_url('/admin') ?>"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
                                 <li><a class="dropdown-item" href="<?= site_url('/admin/users') ?>"><i class="fas fa-users"></i> Utilisateurs</a></li>
+                                <li><a class="dropdown-item" href="<?= site_url('/admin/informations') ?>"><i class="fas fa-newspaper"></i> Informations</a></li>
                                 <li><a class="dropdown-item" href="<?= site_url('/admin/exercises') ?>"><i class="fas fa-wind"></i> Exercices</a></li>
                             </ul>
                         </li>
