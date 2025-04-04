@@ -82,6 +82,7 @@
 </style>
 
 <script>
+    let startTime;
     const phaseText = document.getElementById('phase-text');
     const modeSelect = document.getElementById('modeSelect');
     const progressCircle = document.querySelector('.progress');
@@ -95,9 +96,21 @@
     };
 
     const durations = {
-        '748': { in: 7000, hold: 4000, out: 8000 },
-        '55': { in: 5000, hold: 0, out: 5000 },
-        '46': { in: 4000, hold: 0, out: 6000 }
+        '748': {
+            in: 7000,
+            hold: 4000,
+            out: 8000
+        },
+        '55': {
+            in: 5000,
+            hold: 0,
+            out: 5000
+        },
+        '46': {
+            in: 4000,
+            hold: 0,
+            out: 6000
+        }
     };
 
     let isRunning = false;
@@ -147,28 +160,45 @@
     }
 
     document.getElementById('circle-container').addEventListener("click", () => {
-        isRunning = !isRunning;
+    isRunning = !isRunning;
 
-        if (isRunning) {
-            mode = modeSelect.value;
-            resetProgress();
-            startCycle();
-        } else {
-            clearTimeout(currentTimeout);
-            resetProgress();
-            phaseText.innerText = "Clique pour démarrer";
-        }
-    });
-
-    modeSelect.addEventListener("change", () => {
+    if (isRunning) {
         mode = modeSelect.value;
-        if (isRunning) {
-            clearTimeout(currentTimeout);
-            resetProgress();
-            phaseText.innerText = "Rythme changé, cliquez pour redémarrer";
-            isRunning = false;
+        startTime = Date.now(); // On démarre le chrono
+        resetProgress();
+        startCycle();
+    } else {
+        clearTimeout(currentTimeout);
+        resetProgress();
+        phaseText.innerText = "Clique pour démarrer";
+
+        const duree = Math.floor((Date.now() - startTime) / 1000);
+
+        if (duree >= 10) {
+            const typeMap = {
+                '748': '7-4-8',
+                '55': '5-5',
+                '46': '4-6'
+            };
+
+            fetch("<?= base_url('exercises/terminer') ?>", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `duree=${duree}&type=${encodeURIComponent(typeMap[mode])}`
+            }).then(res => res.json())
+              .then(data => {
+                  if (data.success) {
+                      console.log("✅ Exercice enregistré !");
+                  } else {
+                      console.error("❌ Erreur : ", data.message);
+                  }
+              });
         }
-    });
+    }
+});
+
 </script>
 
 <?= $this->endSection() ?>
