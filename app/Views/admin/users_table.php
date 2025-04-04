@@ -7,7 +7,7 @@
                 <th>Email</th>
                 <th>Rôle</th>
                 <th>Statut</th>
-                <th class="text-end">Actions</th> <!-- Colonne actions vide pour alignement -->
+                <th style="width: 160px;">Actions</th>
             </tr>
         </thead>
         <tbody>

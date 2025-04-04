@@ -14,7 +14,7 @@ $routes->get('dashboard', 'Dashboard::index');
 $routes->get('/test-db', 'DatabaseTest::testConnection');
 $routes->get('/test-register', 'Auth::testRegister');
 $routes->post('/auth/processRegister', 'Auth::processRegister');
-$routes->get('/admin', 'Admin::index', ['filter' => 'adminAuth']);
+$routes->get('/admin', 'Admin::dashboard', ['filter' => 'adminAuth']);
 $routes->get('/admin/users', 'Admin::users');
 $routes->get('/admin/users/edit/(:num)', 'Admin::editUser/$1');
 $routes->post('/admin/users/update/(:num)', 'Admin::updateUser/$1');
@@ -39,6 +39,14 @@ $routes->get('/admin/informations/edit/(:num)', 'Admin::editArticle/$1');
 $routes->post('/admin/informations/update/(:num)', 'Admin::updateArticle/$1');
 $routes->get('/admin/informations/delete/(:num)', 'Admin::deleteArticle/$1', ['filter' => 'adminAuth']);
 $routes->get('/exercises', 'Exercises::index');
+$routes->post('exercises/terminer', 'Exercises::terminer');
+$routes->get('/mentions-legales', 'Pages::mentionsLegales');
+$routes->get('/contact', 'Pages::contact');
+$routes->get('/a-propos', 'Pages::aPropos');
+
+
+
+
 
 
 

@@ -1,0 +1,239 @@
+
+/* ====== GLOBAL ====== */
+body {
+    background: #f8f4e1 url('https://vibrationzenrelax.ch/wp-content/uploads/fondos-de-pantalla-zen-wallpaper-01.jpg');
+    background-repeat: repeat;
+    background-size: cover;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+h1, h2, h3, h4, h5 {
+    font-weight: 600;
+    color: #2BA84A;
+}
+
+a {
+    color: #2BA84A;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #FFD700;
+}
+
+.main-content {
+    flex: 1; /* Pousse le footer vers le bas si pas assez de contenu */
+}
+
+/* ====== NAVBAR ====== */
+/* ===== NAVBAR EN 3 BLOCS ===== */
+/* ===== NAVBAR EN 3 BLOCS ===== */
+.navbar-wrapper {
+    width: 90%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.navbar-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    flex: 0 0 15%; /* blocs de gauche et droite plus petits */
+}
+
+.navbar-box:nth-child(2) {
+    flex: 1; /* bloc central (navbar) prend le reste */
+}
+
+.navbar {
+    padding: 0 !important;
+}
+
+
+
+
+.navbar .nav-link {
+    color: #2BA84A !important;
+    font-weight: bold;
+}
+
+.navbar .nav-link:hover {
+    color: #FFD700 !important;
+}
+
+.dropdown-menu {
+    border-radius: 10px;
+}
+
+/* ====== FOOTER BLANC ====== */
+.footer {
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #2BA84A;
+    font-size: 11px;
+    padding: 2px 0;
+    text-align: center;
+    margin-top: 20px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.footer a {
+    color: #2BA84A;
+    font-weight: 500;
+    text-decoration: none;
+    margin: 0 3px;
+    font-size: 11px;
+}
+
+
+/* ====== CONTAINER PAGES ====== */
+/* Ne garder le style qu’aux vrais blocs de contenu */
+.content, .main-box {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    max-width: 900px; /* Limite la largeur */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Et laisser le .container sans style spécial */
+.container {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+/* ====== BUTTONS ====== */
+.btn {
+    border-radius: 30px;
+    font-weight: 500;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-success {
+    border: 2px solid #2BA84A;
+    color: #2BA84A;
+}
+
+.btn-outline-success:hover {
+    background-color: #2BA84A;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #2BA84A;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #24943e;
+}
+
+.btn-warning {
+    background-color: #FFD700;
+    border: none;
+    color: black;
+}
+
+.btn-warning:hover {
+    background-color: #e6c200;
+}
+
+/* ====== CARDS & TABLES ====== */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.table {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table th {
+    background-color: #2BA84A;
+    color: white;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+/* ====== PROFILE SIDEBAR ====== */
+.sidebar {
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+    min-height: 100vh;
+}
+
+.sidebar .nav-link {
+    color: #2BA84A !important;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(43, 168, 74, 0.1);
+}
+
+.sidebar .nav-link.active {
+    background-color: #2BA84A !important;
+    color: white !important;
+}
+
+/* ====== ANIMATIONS ====== */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out both;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item:active {
+    background-color: #f1f1f1 !important;
+    color: #2BA84A !important;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1 !important;
+    color: #2BA84A !important;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+    transition: all 0.2s ease-in-out;
+}

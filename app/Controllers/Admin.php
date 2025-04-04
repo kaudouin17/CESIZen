@@ -12,13 +12,62 @@ class Admin extends Controller
 
     public function __construct()
     {
-        $this->db = \Config\Database::connect();
+        helper('url');
+
+        if (!session()->get('user_id') || session()->get('is_admin') != 1) {
+            redirect()->to('/')->send(); // redirection vers la page d’accueil
+            exit;
+        }
     }
+
 
     public function index()
     {
-        return view('admin/dashboard');
+        $session = session();
+
+        if (!$session->get('user_id') || $session->get('is_admin') != 1) {
+            return redirect()->to('/login');
+        }
+
+        $userModel = new \App\Models\UserModel();
+        $articleModel = new \App\Models\ArticleModel();
+        $db = \Config\Database::connect();
+
+        $totalUsers = $userModel->countAll();
+        $activeUsers = $userModel->where('is_active', 1)->countAllResults();
+        $inactiveUsers = $totalUsers - $activeUsers;
+
+        $totalExercisesToday = $db->table('exercice_sessions')
+            ->where('DATE(date_session)', date('Y-m-d'))
+            ->countAllResults();
+
+        $lastArticle = $articleModel->orderBy('created_at', 'desc')->first();
+        $lastArticleTitle = $lastArticle ? $lastArticle['title'] : 'Aucun article';
+
+        // Préparer les données pour le graphique des types d'exos
+        $exerciseQuery = $db->table('exercice_sessions')
+            ->select('type_exercice, COUNT(*) as total')
+            ->groupBy('type_exercice')
+            ->get()
+            ->getResultArray();
+
+        // On sécurise les types 7-4-8, 5-5 et 4-6 même s'ils sont absents
+        $exerciseTypes = ['7-4-8' => 0, '5-5' => 0, '4-6' => 0];
+        foreach ($exerciseQuery as $row) {
+            $exerciseTypes[$row['type_exercice']] = (int) $row['total'];
+        }
+
+        return view('admin/dashboard', [
+            'totalUsers' => $totalUsers,
+            'activeUsers' => $activeUsers,
+            'inactiveUsers' => $inactiveUsers,
+            'totalExercisesToday' => $totalExercisesToday,
+            'lastArticle' => $lastArticleTitle,
+            'exerciseTypes' => $exerciseTypes, // ✅ bien envoyé à la vue
+        ]);
     }
+
+
 
     public function users()
     {
@@ -260,5 +309,65 @@ class Admin extends Controller
 
         $model->delete($id);
         return redirect()->to('/admin/informations')->with('success', 'Article supprimé avec succès.');
+    }
+
+    public function dashboard()
+    {
+        $session = session();
+
+        if (!$session->get('user_id') || $session->get('is_admin') != 1) {
+            return redirect()->to('/login');
+        }
+
+        $userModel = new \App\Models\UserModel();
+        $articleModel = new \App\Models\ArticleModel();
+        $db = \Config\Database::connect();
+
+        $totalUsers = $userModel->countAll();
+        $activeUsers = $userModel->where('is_active', 1)->countAllResults();
+        $inactiveUsers = $totalUsers - $activeUsers;
+
+        $totalExercisesToday = $db->table('exercice_sessions')
+            ->where('DATE(date_session)', date('Y-m-d'))
+            ->countAllResults();
+
+        $lastArticle = $articleModel->orderBy('id', 'desc')->first();
+        $lastArticleTitle = $lastArticle ? $lastArticle['title'] : 'Aucun article';
+
+        // Graphique : type d'exercices
+        $exerciseQuery = $db->table('exercice_sessions')
+            ->select('type_exercice, COUNT(*) as total')
+            ->groupBy('type_exercice')
+            ->get();
+
+        if (!$exerciseQuery) {
+            log_message('error', 'Erreur SQL exercice_sessions : ' . print_r($db->error(), true));
+            throw new \RuntimeException('Erreur SQL dans dashboard');
+        }
+
+        $result = $exerciseQuery->getResultArray();
+
+        $exerciseTypes = ['7-4-8' => 0, '5-5' => 0, '4-6' => 0];
+        foreach ($result as $row) {
+            $exerciseTypes[$row['type_exercice']] = (int) $row['total'];
+        }
+
+        // Graphiques
+        $exerciseCounts = array_values($exerciseTypes);
+        $userStatusCounts = [
+            'Actifs' => $activeUsers,
+            'Inactifs' => $inactiveUsers
+        ];
+
+        return view('admin/dashboard', [
+            'totalUsers' => $totalUsers,
+            'activeUsers' => $activeUsers,
+            'inactiveUsers' => $inactiveUsers,
+            'totalExercisesToday' => $totalExercisesToday,
+            'lastArticle' => $lastArticleTitle,
+            'exerciseTypes' => $exerciseTypes,
+            'exerciseCounts' => $exerciseCounts,
+            'userStatusCounts' => $userStatusCounts
+        ]);
     }
 }

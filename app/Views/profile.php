@@ -1,9 +1,9 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
-<div class="container mt-4 d-flex">
+<div class="d-flex" style="min-height: 70vh;">
     <!-- MENU LATÉRAL -->
-    <div class="sidebar bg-light p-3">
+    <div class="sidebar pe-4" style="border-right: 1px solid #ddd;">
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a class="nav-link active" href="#" data-section="profile"><i class="fas fa-user"></i> Profil</a>
@@ -14,39 +14,58 @@
         </ul>
     </div>
 
-    <!-- CONTENU DYNAMIQUE -->
-    <div class="content p-4 w-100">
+    <!-- CONTENU PRINCIPAL -->
+    <div class="flex-grow-1 ps-4">
         <!-- Onglet Profil -->
         <div id="profile" class="section">
-            <h2>Mon Profil</h2>
-            <p><strong>Dernière connexion :</strong> <?= session()->get('last_login') ?: 'Non disponible'; ?></p>
-            <p><strong>Nombre de sessions :</strong> <?= session()->get('session_count') ?: 0; ?></p>
+            <h5 class="mb-4 text-success text-center">🧘‍♂️ Temps total par exercice</h5>
+            <div class="row text-center justify-content-center">
+                <?php
+                $couleurs = ['7-4-8' => '🟢', '5-5' => '🔵', '4-6' => '🟡'];
+                foreach (['7-4-8', '5-5', '4-6'] as $type): ?>
+                    <div class="col-md-3 mb-3">
+                        <div class="border rounded p-3 h-100">
+                            <h6 class="fw-bold mb-2"><?= $couleurs[$type] ?? '' ?> <?= esc($type) ?></h6>
+                            <?php if (isset($sessionsParType[$type])): ?>
+                                <?php
+                                $h = $sessionsParType[$type]['hours'] ?? 0;
+                                $m = $sessionsParType[$type]['minutes'];
+                                $s = $sessionsParType[$type]['seconds'];
+
+                                if ($h >= 1) {
+                                    echo "<span class='text-muted'>{$h} h" . ($m > 0 ? " {$m} min" : "") . "</span>";
+                                } elseif ($m >= 10) {
+                                    echo "<span class='text-muted'>{$m} min</span>";
+                                } else {
+                                    echo "<span class='text-muted'>{$m} min {$s} sec</span>";
+                                }
+                                ?>
+                            <?php else: ?>
+                                <span class="text-muted">0 min</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
 
         <!-- Onglet Informations -->
         <div id="info" class="section d-none">
-            <h2>Informations</h2>
-            <div class="mb-3">
-                <label class="form-label"><strong>Nom d'utilisateur :</strong></label>
-                <p class="form-control-plaintext"><?= esc(session()->get('username')) ?></p>
-            </div>
-            <div class="mb-3">
-                <label class="form-label"><strong>Email :</strong></label>
-                <p class="form-control-plaintext"><?= esc(session()->get('user_email')) ?></p>
-            </div>
+            <h2 class="text-success text-center">Informations</h2>
+            <p><strong>Nom d'utilisateur :</strong><br><?= esc(session()->get('username')) ?></p>
+            <p><strong>Email :</strong><br><?= esc(session()->get('user_email')) ?></p>
 
-            <!-- BOUTONS MODERNES -->
             <div class="d-flex flex-wrap gap-2 mt-3">
                 <button class="btn btn-outline-success d-flex align-items-center gap-2"
-                    style="border-radius: 30px; font-weight: 500; padding: 10px 20px;"
-                    data-bs-toggle="modal"
-                    data-bs-target="#avatarModal">
+                        style="border-radius: 30px; font-weight: 500; padding: 10px 20px;"
+                        data-bs-toggle="modal"
+                        data-bs-target="#avatarModal">
                     <i class="fas fa-image"></i> Changer mon avatar
                 </button>
 
                 <a href="<?= site_url('/profile/edit') ?>"
-                    class="btn btn-primary d-flex align-items-center gap-2"
-                    style="border-radius: 30px; font-weight: 500; padding: 10px 20px;">
+                   class="btn btn-primary d-flex align-items-center gap-2"
+                   style="border-radius: 30px; font-weight: 500; padding: 10px 20px;">
                     <i class="fas fa-pen"></i> Modifier mes informations
                 </a>
             </div>
@@ -97,20 +116,24 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const toast = new bootstrap.Toast(document.getElementById('successToast'));
+            const toastEl = document.getElementById('successToast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
             toast.show();
+
+            // Sécurité en plus : on le ferme après 5s
+            setTimeout(() => toast.hide(), 5000);
         });
     </script>
 <?php endif; ?>
 
 <!-- SCRIPT ONGLET -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const links = document.querySelectorAll(".sidebar .nav-link");
         const sections = document.querySelectorAll(".section");
 
         links.forEach(link => {
-            link.addEventListener("click", function(e) {
+            link.addEventListener("click", function (e) {
                 e.preventDefault();
 
                 links.forEach(l => l.classList.remove("active"));
@@ -121,17 +144,14 @@
                 document.getElementById(sectionId).classList.remove("d-none");
             });
         });
+
+        // Affiche la section "profil" au démarrage
+        document.querySelector('[data-section="profile"]').click();
     });
 </script>
 
+<!-- STYLES -->
 <style>
-    .sidebar {
-        width: 200px;
-        min-height: 100vh;
-        border-right: 1px solid #ddd;
-        background-color: #f8f9fa;
-    }
-
     .nav-link {
         color: #2BA84A !important;
         font-weight: bold;

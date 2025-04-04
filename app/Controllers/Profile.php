@@ -9,7 +9,37 @@ class Profile extends Controller
 {
     public function index()
     {
-        return view('profile');
+        $db = \Config\Database::connect();
+        $userId = session()->get('user_id');
+
+        // Récupération du temps total par type d'exercice
+        $query = $db->query("
+            SELECT type_exercice, SUM(duree_seconds) as total_seconds
+            FROM exercice_sessions
+            WHERE user_id = ?
+            GROUP BY type_exercice
+        ", [$userId]);
+
+        $sessionsParType = [];
+
+        foreach ($query->getResult() as $row) {
+            $totalSec = (int) $row->total_seconds;
+            $minutes = floor($totalSec / 60);
+            $seconds = $totalSec % 60;
+            $hours = floor($minutes / 60);
+            $remainingMin = $minutes % 60;
+        
+            $sessionsParType[$row->type_exercice] = [
+                'hours' => $hours,
+                'minutes' => $remainingMin,
+                'seconds' => $seconds
+            ];
+        }
+            
+
+        return view('profile', [
+            'sessionsParType' => $sessionsParType
+        ]);
     }
 
     public function edit()
@@ -23,7 +53,6 @@ class Profile extends Controller
 
     public function update()
     {
-
         $session = session();
         $session->set('username', $this->request->getPost('username'));
         $session->set('user_email', $this->request->getPost('email'));
@@ -36,7 +65,6 @@ class Profile extends Controller
             'email'    => 'required|valid_email|is_unique[users.email,id,' . $userId . ']',
         ];
 
-        // Vérifier si un mot de passe est fourni
         if ($this->request->getPost('password')) {
             $validationRules['password'] = 'required|min_length[6]';
             $validationRules['password_confirm'] = 'matches[password]';
@@ -46,7 +74,6 @@ class Profile extends Controller
             return redirect()->to('/profile/edit')->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Mise à jour des données
         $data = [
             'username' => $this->request->getPost('username'),
             'email'    => $this->request->getPost('email'),
