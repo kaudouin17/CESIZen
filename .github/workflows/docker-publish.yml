@@ -21,7 +21,7 @@ jobs:
       - id: meta
         uses: docker/metadata-action@v5
         with:
-          images: kaudouin17/mon-site-html
+          images: kilianaudouin/cesizen
           tags: |
             type=raw,value=latest
             type=sha
