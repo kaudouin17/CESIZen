@@ -2,7 +2,7 @@ name: Build & Push Docker
 
 on:
   push:
-    branches: [ "main" ]  # adapte ta branche
+    branches: [main]
   workflow_dispatch:
 
 jobs:
