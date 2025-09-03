@@ -23,7 +23,7 @@ RUN if [ "$COMPOSER_DEV" = "true" ]; then \
 # ---- 2) Image finale : PHP + Apache (Debian) ----
 FROM php:8.3-apache
 
-# Paquets & extensions nécessaires à l’exécution
+# Paquets & extensions nécessaires à l’exécution ih
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git unzip libicu-dev libzip-dev curl \
  && docker-php-ext-install intl pdo_mysql zip opcache \
