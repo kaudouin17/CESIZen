@@ -26,7 +26,7 @@ FROM php:8.3-apache
 # Paquets & extensions nécessaires à l’exécution ih
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git unzip libicu-dev libzip-dev curl \
- && docker-php-ext-install intl pdo_mysql zip opcache \
+ && docker-php-ext-install intl pdo_mysql mysqli zip opcache \
  && a2enmod rewrite \
  && rm -rf /var/lib/apt/lists/*
 
