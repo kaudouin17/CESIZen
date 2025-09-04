@@ -24,7 +24,7 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-    public array $production  = [
+    public array $default  = [
         'DSN'          => '',
         'hostname'     => 'switchback.proxy.rlwy.net',
         'username'     => 'root',
