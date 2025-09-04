@@ -24,22 +24,25 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-    public array $default = [
-        'DSN'      => '',
-        'hostname' => 'mysql-f3b_.railway.internal',
-        'username' => 'root',
-        'password' => 'RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo',
-        'database' => 'railway',
-        'DBDriver' => 'MySQLi',
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug'  => true,
-        'charset'  => 'utf8mb4',
-        'DBCollat' => 'utf8mb4_general_ci',
-        'port'     => 3306,
-    ];
-    
-    
+public array $default = [
+    'DSN'      => 'mysql://root:RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo@mysql-f3b_.railway.internal:3306/railway',
+    'hostname' => '',
+    'username' => '',
+    'password' => '',
+    'database' => '',
+    'DBDriver' => 'MySQLi',
+    'DBPrefix' => '',
+    'pConnect' => false,
+    'DBDebug'  => true,
+    'charset'  => 'utf8mb4',
+    'DBCollat' => 'utf8mb4_general_ci',
+    'swapPre'  => '',
+    'encrypt'  => false,
+    'compress' => false,
+    'strictOn' => false,
+    'failover' => [],
+    'port'     => 3306,
+];
 
     //    /**
     //     * Sample database connection for SQLite3.
