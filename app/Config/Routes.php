@@ -43,7 +43,7 @@ $routes->post('exercises/terminer', 'Exercises::terminer');
 $routes->get('/mentions-legales', 'Pages::mentionsLegales');
 $routes->get('/contact', 'Pages::contact');
 $routes->get('/a-propos', 'Pages::aPropos');
-$routes->get('dbtest', 'DbTest::index');
+$routes->get('/dbtest', 'DbTest::index');
 
 
 
