@@ -25,7 +25,7 @@ class Database extends Config
      * @var array<string, mixed>
      */
 public array $default = [
-    'DSN'      => 'mysql://root:RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo@mysql-f3b_.railway.internal:3306/railway',
+    'DSN'      => 'MySQLi://root:RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo@mysql-f3b_.railway.internal:3306/railway',
     'hostname' => '',
     'username' => '',
     'password' => '',
