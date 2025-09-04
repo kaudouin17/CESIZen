@@ -25,23 +25,7 @@ class Database extends Config
      * @var array<string, mixed>
      */
 public array $default = [
-    'DSN'      => 'MySQLi://root:RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo@mysql-f3b_.railway.internal:3306/railway',
-    'hostname' => '',
-    'username' => '',
-    'password' => '',
-    'database' => '',
-    'DBDriver' => 'MySQLi',
-    'DBPrefix' => '',
-    'pConnect' => false,
-    'DBDebug'  => true,
-    'charset'  => 'utf8mb4',
-    'DBCollat' => 'utf8mb4_general_ci',
-    'swapPre'  => '',
-    'encrypt'  => false,
-    'compress' => false,
-    'strictOn' => false,
-    'failover' => [],
-    'port'     => 3306,
+    'DSN'      => 'mysql://root:RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo@switchback.proxy.rlwy.net:54588/railway',
 ];
 
     //    /**
