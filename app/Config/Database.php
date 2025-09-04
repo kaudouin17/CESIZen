@@ -25,7 +25,7 @@ class Database extends Config
      * @var array<string, mixed>
      */
 public array $default = [
-    'DSN'      => 'MySQLi://root:RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo@switchback.proxy.rlwy.net:54588/railway',
+    'DSN'      => 'mysql://root:RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo@switchback.proxy.rlwy.net:54588/railway',
 ];
 
     //    /**
