@@ -24,27 +24,25 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-    public array $default  = [
-        'DSN'          => '',
-        'hostname'     => 'switchback.proxy.rlwy.net',
-        'username'     => 'root',
-        'password'     => 'RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo',
-        'database'     => 'cesizen',
-        'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => '',
-        'pConnect'     => false,
-        'DBDebug'      => true,
-        'charset'      => 'utf8',
-        'DBCollat'     => 'utf8_general_ci',
-        'swapPre'      => '',
-        'encrypt'      => false,
-        'compress'     => false,
-        'strictOn'     => false,
-        'failover'     => [],
-        'port'         => 54588,
-        'numberNative' => false,
-    ];
-
+public array $default = [
+    'DSN'      => '',
+    'hostname' => 'switchback.proxy.rlwy.net',
+    'username' => 'root',
+    'password' => 'RGWOuFhVkIleVjSegAEQZLkUqjXLiGYo',
+    'database' => 'cesizen',
+    'DBDriver' => 'MySQLi',
+    'DBPrefix' => '',
+    'pConnect' => false,
+    'DBDebug'  => true, // Passe à false en production
+    'charset'  => 'utf8mb4',
+    'DBCollat' => 'utf8mb4_general_ci',
+    'swapPre'  => '',
+    'encrypt'  => false,
+    'compress' => false,
+    'strictOn' => false,
+    'failover' => [],
+    'port'     => 54588, // Important !
+];
     //    /**
     //     * Sample database connection for SQLite3.
     //     *
